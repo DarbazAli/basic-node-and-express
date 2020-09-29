@@ -7,7 +7,10 @@ require('dotenv').config();
 
 const app = express();
 
+
+const MESSAGE_STYLE = process.env.MESSAGE_STYLE;
 const PORT = process.env.PORT || 3000
+
 app
     .listen(3000, log(`Server running on port ${PORT} \n`))
 
@@ -38,6 +41,12 @@ app
     })
 
 
+app
+    .route('/hello')
+    .get( (req, res) => {
+        const msg = process.env.MESSAGE_STYLE === 'uppercase' ? 'JSON' : 'json';
+        res.json( {"message" : `Hello ${msg}`})
+    })
 
 
 
