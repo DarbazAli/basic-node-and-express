@@ -16,11 +16,15 @@ app
     MOUTE MIDLLEWARES
 ===================================== */
 
-// SERVE HTML FILES
+/* Serve static assets */
+const statics = express.static(process.cwd() + '/public');
+app.use(statics)
+
 
 app
     .route('/')
     .get((req, res) => {
+        // SERVE HTML FILES
         res.sendFile(__dirname + '/index.html')
     })
 
