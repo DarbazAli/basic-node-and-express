@@ -29,7 +29,13 @@ app
     })
 
 
- 
+ /* Serve JSON on a route */
+ app
+    .route('/now')
+    .get( (req, res) => {
+        const time = new Date().toUTCString();
+        res.json({"Current Time": time})
+    })
 
 
 
