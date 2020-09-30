@@ -3,6 +3,15 @@ console.clear();
 global.log = console.log;
 
 const express = require("express");
+
+const { 
+    notFound, 
+    convertAPI, 
+    nowAPI, 
+    home 
+} = require("./routes/routes");
+
+
 require("dotenv").config();
 
 const app = express();
@@ -20,47 +29,9 @@ app.listen(3000, log(`Server running on port ${PORT} \n`));
 const statics = express.static(process.cwd() + "/public");
 app.use(statics);
 
-app.route("/").get((req, res) => {
-  // SERVE HTML FILES
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.route("/now").get(
-  (req, res, next) => {
-    req.time = new Date().toUTCString();
-    req.user = req.ip;
-    next();
-  },
-  (req, res) => {
-    res.json({ time: req.time, user: req.user });
-  }
-);
-
-app.route("/hello").get((req, res) => {
-  const msg = process.env.MESSAGE_STYLE === "uppercase" ? "JSON" : "json";
-  res.json({ message: `Hello ${msg}` });
-});
 
 
-
-// get route parameter
-app
-  .route('/user/:id')
-  .get( (req, res) => {
-    const { id } = req.params
-    log(id)
-    res.json({userid: id})
-  })
-
-// get query parameter
-app
-  .route('/convert')
-  .get( (req, res, next) => {
-    const { kg } = req.query;
-    req.pound = parseInt(kg) * 2.22
-    req.str = `${kg} kg converts to ${req.pound} lbs`
-    next();
-  }, (req, res) => {
-    res.json({result: req.str})
-  }
-  )
+home(app)
+nowAPI(app)
+convertAPI(app);
+notFound(app)
