@@ -40,3 +40,14 @@ app.route("/hello").get((req, res) => {
   const msg = process.env.MESSAGE_STYLE === "uppercase" ? "JSON" : "json";
   res.json({ message: `Hello ${msg}` });
 });
+
+
+
+// get route parameter
+app
+  .route('/user/:id')
+  .get( (req, res) => {
+    const { id } = req.params
+    log(id)
+    res.json({userid: id})
+  })
