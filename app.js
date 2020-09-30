@@ -51,3 +51,16 @@ app
     log(id)
     res.json({userid: id})
   })
+
+// get query parameter
+app
+  .route('/convert')
+  .get( (req, res, next) => {
+    const { kg } = req.query;
+    req.pound = parseInt(kg) * 2.22
+    req.str = `${kg} kg converts to ${req.pound} lbs`
+    next();
+  }, (req, res) => {
+    res.json({result: req.str})
+  }
+  )
